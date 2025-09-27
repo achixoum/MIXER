@@ -1,0 +1,227 @@
+-------------FLEX AND YACC DEBUGGING LOGS-------------
+
+int
+RESERVED
+Type -> INT
+factorial
+ID
+(
+int
+RESERVED
+Type -> INT
+x
+ID
+)
+Params -> Formals Type ID
+{
+if
+RESERVED
+(
+x
+ID
+<=
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+1
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr Relop Add_expr
+return
+RESERVED
+1
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+else
+RESERVED
+return
+RESERVED
+x
+ID
+*
+Location -> ID
+Factor -> Location
+Term -> Factor
+factorial
+ID
+(
+Method -> ID
+x
+ID
+-
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+1
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Term Mulop Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmt -> IF ( Expr ) Stmt ELSE Stmt
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+int
+RESERVED
+Type -> INT
+main
+ID
+(
+)
+{
+int
+RESERVED
+Type -> INT
+n
+ID
+=
+3
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Decl -> Type ID = Expr Vars ;
+int
+RESERVED
+Decl_list -> Decl_list Decl
+Type -> INT
+fact
+ID
+;
+Decl -> Type ID Vars ;
+{
+Decls -> Decl_list Decl
+fact
+ID
+Location -> ID
+=
+factorial
+ID
+(
+Method -> ID
+n
+ID
++
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+2
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmts -> Stmts Stmt
+}
+Block -> { Stmts }
+Stmt -> Block
+Stmts -> Stmts Stmt
+return
+RESERVED
+fact
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+Meth_list -> Meth
+Meth_list -> Meth Meth_list
+Program -> Meth_list
+
+----------------AST------------------
+PROGRAM
+  METHOD (factorial)
+    PARAMS
+      ID (x)
+        TYPE (int)
+    BODY
+      STATEMENTS
+        STATEMENT
+          IF
+            OP (<=)
+              ID (x)
+              NUM (1)
+            RETURN
+              NUM (1)
+            RETURN
+              OP (*)
+                ID (x)
+                FUNCTION CALL
+                  ID (factorial)
+                  ARGUMENTS
+                    ARGUMENT
+                      OP (-)
+                        ID (x)
+                        NUM (1)
+  METHOD (main)
+    BODY
+      DECLARATIONS
+        DECLARE
+          TYPE (int)
+          ASSIGN
+            ID (n)
+            NUM (3)
+        DECLARE
+          TYPE (int)
+          ID (fact)
+      STATEMENTS
+        STATEMENT
+          BLOCK
+            STATEMENT
+              ASSIGN
+                ID (fact)
+                FUNCTION CALL
+                  ID (factorial)
+                  ARGUMENTS
+                    ARGUMENT
+                      OP (+)
+                        ID (n)
+                        NUM (2)
+        STATEMENT
+          RETURN
+            ID (fact)
+
+-------------SYMBOL TABLE--------------
+Total symbols: 5
+Bucket 0:
+  Name: fact | Scope: main | Type: int | Kind: Variable | Index in table: 1 Value: 0
+Bucket 1:
+  Name: n | Scope: main | Type: int | Kind: Variable | Index in table: 0 Value: 3
+  Name: main | Scope: global | Type: int | Kind: Function | Parameters: 0 Locals: 2 Recursive: false Value: 0
+Bucket 4:
+  Name: x | Scope: factorial | Type: int | Kind: Parameter | Index in table: 0 Value: 0
+  Name: factorial | Scope: global | Type: int | Kind: Function | Parameters: 1 Locals: 0 Recursive: true Value: 0

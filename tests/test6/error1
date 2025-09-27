@@ -1,0 +1,21 @@
+int method1(int a)
+{
+    int d = true;
+    int h,b;
+    int b = ((d+10)+10*5)/5;
+    return b;
+}
+
+int main()
+{
+    int a=5;
+    if (a>=0){
+        a = method_1(0);
+        break;
+    }
+    else {
+        while(a<10){
+            a = a+1;
+        }
+    }
+}

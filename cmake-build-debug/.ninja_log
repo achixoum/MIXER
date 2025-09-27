@@ -1,0 +1,7 @@
+# ninja log v6
+35	133	7805373891213134	CMakeFiles/Compiler.dir/main.c.obj	1a21be2ca2b53f8e
+43	147	7805373891288228	CMakeFiles/Compiler.dir/mixal_generation.c.obj	488abdafc2c02903
+161	287	7805373892480542	Compiler.exe	25f47dcad384005e
+46	134	7805373891323341	CMakeFiles/Compiler.dir/log.c.obj	84f729cad814b727
+39	135	7805373891258155	CMakeFiles/Compiler.dir/syndax_tree.c.obj	bb24b1630b89ef0f
+41	161	7805373891278219	CMakeFiles/Compiler.dir/symbol_table.c.obj	ab5745b161bc3068

@@ -1,0 +1,98 @@
+       ORIG 0
+TBL02      ORIG *+3
+TBL11      ORIG *+2
+       ORIG 2000
+
+max     STJ EXIT0
+           ST1 REC0(0:2)
+            ENT1 TBL11
+           LDA 1,1
+           STA TEMP0
+           LDA 0,1
+           CMPA TEMP0
+           JG IF0
+           JMP ELSE0
+IF0     NOP
+           LDA 0,1
+          JMP REC0
+           JMP ENDIF0
+ELSE0     NOP
+           LDA 1,1
+          JMP REC0
+ENDIF0     NOP
+REC0      ENT1 *
+EXIT0     JMP *
+
+main     STJ EXIT1
+           ST2 REC2(0:2)
+            ENT2 TBL02
+           LDA =0=
+           STA 0,2
+           LDA =0=
+           STA 1,2
+           LDA =0=
+           STA 2,2
+COND0           LDA =10=
+           STA TEMP1
+           LDA 0,2
+           CMPA TEMP1
+           JL LOOP0
+           JMP ENDLOOP0
+LOOP0       NOP
+           LDA =0=
+           STA TEMP2
+           LDA =2=
+           STA TEMP3
+           LDA =2=
+           STA TEMP4
+           LDA 0,2
+           SRAX 5
+           DIV TEMP4
+           ENTX 0
+           MUL TEMP3
+           SLAX 5
+           STA TEMP3
+           LDA 0,2
+           SUB TEMP3
+           CMPA TEMP2
+           JE IF1
+           JMP ELSE1
+IF1     NOP
+           LDA =3=
+           STA TEMP6
+           LDA 0,2
+           MUL TEMP6
+           SLAX 5
+           STA 2,2
+           JMP ENDIF1
+ELSE1     NOP
+           LDA =1=
+           STA TEMP7
+           LDA =2=
+           STA TEMP8
+           LDA 0,2
+           MUL TEMP8
+           SLAX 5
+           ADD TEMP7
+           STA 2,2
+ENDIF1     NOP
+           ENT3 TBL11
+           LDA 1,2
+           STA 0,3
+           LDA 2,2
+           STA 1,3
+           JMP max
+           STA 1,2
+           LDA =1=
+           STA TEMP9
+           LDA 0,2
+           ADD TEMP9
+           STA 0,2
+           JMP COND0
+ENDLOOP0      NOP
+           LDA 1,2
+          JMP REC2
+REC2      ENT2 *
+EXIT1     JMP *
+       HLT
+       END MAIN

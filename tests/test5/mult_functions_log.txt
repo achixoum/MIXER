@@ -1,0 +1,432 @@
+-------------FLEX AND YACC DEBUGGING LOGS-------------
+
+int
+RESERVED
+Type -> INT
+square
+ID
+(
+int
+RESERVED
+Type -> INT
+x
+ID
+)
+Params -> Formals Type ID
+{
+return
+RESERVED
+x
+ID
+*
+Location -> ID
+Factor -> Location
+Term -> Factor
+x
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Term Mulop Factor
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+int
+RESERVED
+Type -> INT
+hypSqrd
+ID
+(
+int
+RESERVED
+Type -> INT
+a
+ID
+,
+Formals -> Formals Type ID ,
+int
+RESERVED
+Type -> INT
+b
+ID
+)
+Params -> Formals Type ID
+{
+return
+RESERVED
+square
+ID
+(
+Method -> ID
+a
+ID
+)
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
++
+Add_expr -> Term
+square
+ID
+(
+Method -> ID
+b
+ID
+)
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
+;
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+int
+RESERVED
+Type -> INT
+perimeter
+ID
+(
+int
+RESERVED
+Type -> INT
+a
+ID
+,
+Formals -> Formals Type ID ,
+int
+RESERVED
+Type -> INT
+b
+ID
+)
+Params -> Formals Type ID
+{
+int
+RESERVED
+Type -> INT
+c
+ID
+;
+Decl -> Type ID Vars ;
+c
+ID
+Decls -> Decl_list Decl
+Location -> ID
+=
+hypSqrd
+ID
+(
+Method -> ID
+a
+ID
+,
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Args -> Args Expr ,
+b
+ID
+)
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmts -> Stmts Stmt
+return
+RESERVED
+a
+ID
++
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+b
+ID
++
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Add_expr Addop Term
+c
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+int
+RESERVED
+Type -> INT
+main
+ID
+(
+)
+{
+int
+RESERVED
+Type -> INT
+h
+ID
+,
+p
+ID
+;
+Vars -> , ID Vars
+Decl -> Type ID Vars ;
+h
+ID
+Decls -> Decl_list Decl
+Location -> ID
+=
+hypSqrd
+ID
+(
+Method -> ID
+3
+Factor -> NUM
+Term -> Factor
++
+Add_expr -> Term
+1
+Factor -> NUM
+Term -> Factor
+,
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Args -> Args Expr ,
+2
+Factor -> NUM
+Term -> Factor
+*
+2
+Factor -> NUM
+Term -> Term Mulop Factor
+)
+Add_expr -> Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmts -> Stmts Stmt
+p
+ID
+Location -> ID
+=
+perimeter
+ID
+(
+Method -> ID
+3
+Factor -> NUM
+Term -> Factor
+,
+Add_expr -> Term
+Expr -> Add_expr
+Args -> Args Expr ,
+4
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmts -> Stmts Stmt
+return
+RESERVED
+h
+ID
++
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+p
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+Meth_list -> Meth
+Meth_list -> Meth Meth_list
+Meth_list -> Meth Meth_list
+Meth_list -> Meth Meth_list
+Program -> Meth_list
+
+----------------AST------------------
+PROGRAM
+  METHOD (square)
+    PARAMS
+      ID (x)
+        TYPE (int)
+    BODY
+      STATEMENTS
+        STATEMENT
+          RETURN
+            OP (*)
+              ID (x)
+              ID (x)
+  METHOD (hypSqrd)
+    PARAMS
+      ID (a)
+        TYPE (int)
+      ID (b)
+        TYPE (int)
+    BODY
+      STATEMENTS
+        STATEMENT
+          RETURN
+            OP (+)
+              FUNCTION CALL
+                ID (square)
+                ARGUMENTS
+                  ARGUMENT
+                    ID (a)
+              FUNCTION CALL
+                ID (square)
+                ARGUMENTS
+                  ARGUMENT
+                    ID (b)
+  METHOD (perimeter)
+    PARAMS
+      ID (a)
+        TYPE (int)
+      ID (b)
+        TYPE (int)
+    BODY
+      DECLARATIONS
+        DECLARE
+          TYPE (int)
+          ID (c)
+      STATEMENTS
+        STATEMENT
+          ASSIGN
+            ID (c)
+            FUNCTION CALL
+              ID (hypSqrd)
+              ARGUMENTS
+                ARGUMENT
+                  ID (a)
+                ARGUMENT
+                  ID (b)
+        STATEMENT
+          RETURN
+            OP (+)
+              OP (+)
+                ID (a)
+                ID (b)
+              ID (c)
+  METHOD (main)
+    BODY
+      DECLARATIONS
+        DECLARE
+          TYPE (int)
+          ID (h)
+          ID (p)
+      STATEMENTS
+        STATEMENT
+          ASSIGN
+            ID (h)
+            FUNCTION CALL
+              ID (hypSqrd)
+              ARGUMENTS
+                ARGUMENT
+                  OP (+)
+                    NUM (3)
+                    NUM (1)
+                ARGUMENT
+                  OP (*)
+                    NUM (2)
+                    NUM (2)
+        STATEMENT
+          ASSIGN
+            ID (p)
+            FUNCTION CALL
+              ID (perimeter)
+              ARGUMENTS
+                ARGUMENT
+                  NUM (3)
+                ARGUMENT
+                  NUM (4)
+        STATEMENT
+          RETURN
+            OP (+)
+              ID (h)
+              ID (p)
+
+-------------SYMBOL TABLE--------------
+Total symbols: 12
+Bucket 1:
+  Name: main | Scope: global | Type: int | Kind: Function | Parameters: 0 Locals: 2 Recursive: false Value: 0
+Bucket 3:
+  Name: a | Scope: perimeter | Type: int | Kind: Parameter | Index in table: 0 Value: 0
+  Name: perimeter | Scope: global | Type: int | Kind: Function | Parameters: 2 Locals: 1 Recursive: false Value: 0
+Bucket 4:
+  Name: b | Scope: perimeter | Type: int | Kind: Parameter | Index in table: 1 Value: 0
+Bucket 5:
+  Name: p | Scope: main | Type: int | Kind: Variable | Index in table: 1 Value: 0
+  Name: c | Scope: perimeter | Type: int | Kind: Variable | Index in table: 0 Value: 0
+Bucket 6:
+  Name: square | Scope: global | Type: int | Kind: Function | Parameters: 1 Locals: 0 Recursive: false Value: 0
+Bucket 7:
+  Name: x | Scope: square | Type: int | Kind: Parameter | Index in table: 0 Value: 0
+Bucket 8:
+  Name: h | Scope: main | Type: int | Kind: Variable | Index in table: 0 Value: 0
+  Name: a | Scope: hypSqrd | Type: int | Kind: Parameter | Index in table: 0 Value: 0
+  Name: hypSqrd | Scope: global | Type: int | Kind: Function | Parameters: 2 Locals: 0 Recursive: false Value: 0
+Bucket 9:
+  Name: b | Scope: hypSqrd | Type: int | Kind: Parameter | Index in table: 1 Value: 0

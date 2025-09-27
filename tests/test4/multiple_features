@@ -1,0 +1,27 @@
+int max(int x, int y) {
+    if (x > y)
+        return x;
+    else
+        return y;
+}
+
+int main()
+{
+    int i = 0;
+    int runningMax = 0;
+    int val=0;
+
+    while (i < 10)
+    {
+        // check evenness without %
+        if ((i - (i / 2) * 2) == 0)
+            val = i * 3;
+        else
+            val = i * 2 + 1;
+
+        runningMax = max(runningMax, val);
+        i = i + 1;
+    }
+
+    return runningMax;
+}

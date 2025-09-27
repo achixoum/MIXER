@@ -1,0 +1,123 @@
+       ORIG 0
+TBL02      ORIG *+1
+TBL11      ORIG *+1
+TBL12      ORIG *+2
+       ORIG 2000
+
+sumToN     STJ EXIT0
+           ST1 REC0(0:2)
+            ENT1 TBL11
+           ST2 REC1(0:2)
+            ENT2 TBL12
+           LDA =0=
+           STA 0,2
+           LDA =0=
+           STA 1,2
+COND0           LDA 0,1
+           STA TEMP0
+           LDA 0,2
+           CMPA TEMP0
+           JLE LOOP0
+           JMP ENDLOOP0
+LOOP0       NOP
+           LDA =0=
+           STA TEMP1
+           LDA =2=
+           STA TEMP2
+           LDA =2=
+           STA TEMP3
+           LDA 0,2
+           SRAX 5
+           DIV TEMP3
+           ENTX 0
+           MUL TEMP2
+           SLAX 5
+           STA TEMP2
+           LDA 0,2
+           SUB TEMP2
+           CMPA TEMP1
+           JE IF0
+           JMP ELSE0
+IF0     NOP
+           LDA 0,2
+           STA TEMP5
+           LDA 1,2
+           ADD TEMP5
+           STA 1,2
+           JMP ENDIF0
+ELSE0     NOP
+           LDA =2=
+           STA TEMP6
+           LDA 0,2
+           MUL TEMP6
+           SLAX 5
+           STA TEMP6
+           LDA 1,2
+           ADD TEMP6
+           STA 1,2
+ENDIF0     NOP
+           LDA =1=
+           STA TEMP8
+           LDA 0,2
+           ADD TEMP8
+           STA 0,2
+COND1           LDA =1=
+           JMP ENDLOOP1
+LOOP1       NOP
+           LDA =0=
+           STA TEMP9
+           LDA 1,2
+           CMPA TEMP9
+           JG IF1
+           JMP ELSE1
+IF1     NOP
+           JMP ENDLOOP1
+           JMP ENDIF1
+ELSE1     NOP
+           LDA =0=
+           STA TEMP10
+           LDA 0,2
+           CMPA TEMP10
+           JE IF2
+           JMP ELSE2
+IF2     NOP
+           LDA 1,2
+           STA TEMP11
+           LDA 1,2
+           MUL TEMP11
+           SLAX 5
+           STA 1,2
+           JMP ENDIF2
+ELSE2     NOP
+           LDA =2=
+           STA TEMP12
+           LDA 1,2
+           MUL TEMP12
+           SLAX 5
+           STA 1,2
+ENDIF2     NOP
+ENDIF1     NOP
+           JMP COND1
+ENDLOOP1      NOP
+           JMP COND0
+ENDLOOP0      NOP
+           LDA 1,2
+          JMP REC0
+REC0      ENT1 *
+REC1      ENT2 *
+EXIT0     JMP *
+
+main     STJ EXIT1
+           ST2 REC2(0:2)
+            ENT2 TBL02
+           ENT3 TBL11
+           LDA =10=
+           STA 0,3
+           JMP sumToN
+           STA 0,2
+           LDA 0,2
+          JMP REC2
+REC2      ENT2 *
+EXIT1     JMP *
+       HLT
+       END MAIN

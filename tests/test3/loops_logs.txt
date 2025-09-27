@@ -1,0 +1,471 @@
+-------------FLEX AND YACC DEBUGGING LOGS-------------
+
+int
+RESERVED
+Type -> INT
+sumToN
+ID
+(
+int
+RESERVED
+Type -> INT
+n
+ID
+)
+Params -> Formals Type ID
+{
+int
+RESERVED
+Type -> INT
+i
+ID
+=
+0
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Decl -> Type ID = Expr Vars ;
+int
+RESERVED
+Decl_list -> Decl_list Decl
+Type -> INT
+sum
+ID
+=
+0
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Decl -> Type ID = Expr Vars ;
+while
+RESERVED
+Decls -> Decl_list Decl
+(
+i
+ID
+<=
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+n
+ID
+)
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr Relop Add_expr
+{
+if
+RESERVED
+(
+(
+i
+ID
+-
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+(
+i
+ID
+/
+Location -> ID
+Factor -> Location
+Term -> Factor
+2
+Factor -> NUM
+Term -> Term Mulop Factor
+)
+Add_expr -> Term
+Expr -> Add_expr
+Factor -> ( Expr )
+Term -> Factor
+*
+2
+Factor -> NUM
+Term -> Term Mulop Factor
+)
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Factor -> ( Expr )
+Term -> Factor
+==
+Add_expr -> Term
+0
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr Relop Add_expr
+sum
+ID
+Location -> ID
+=
+sum
+ID
++
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+i
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+else
+RESERVED
+sum
+ID
+Location -> ID
+=
+sum
+ID
++
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+(
+i
+ID
+*
+Location -> ID
+Factor -> Location
+Term -> Factor
+2
+Factor -> NUM
+Term -> Term Mulop Factor
+)
+Add_expr -> Term
+Expr -> Add_expr
+Factor -> ( Expr )
+Term -> Factor
+;
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmt -> IF ( Expr ) Stmt ELSE Stmt
+Stmts -> Stmts Stmt
+i
+ID
+Location -> ID
+=
+i
+ID
++
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+1
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmts -> Stmts Stmt
+while
+RESERVED
+(
+true
+RESERVED
+Factor -> TRUE
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr
+{
+if
+RESERVED
+(
+sum
+ID
+>
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+0
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr Relop Add_expr
+break
+RESERVED
+;
+Stmt -> BREAK ;
+else
+RESERVED
+if
+RESERVED
+(
+i
+ID
+==
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+0
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr Relop Add_expr
+sum
+ID
+Location -> ID
+=
+sum
+ID
+*
+Location -> ID
+Factor -> Location
+Term -> Factor
+sum
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Term Mulop Factor
+Add_expr -> Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+else
+RESERVED
+sum
+ID
+Location -> ID
+=
+sum
+ID
+*
+Location -> ID
+Factor -> Location
+Term -> Factor
+2
+Factor -> NUM
+Term -> Term Mulop Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmt -> IF ( Expr ) Stmt ELSE Stmt
+Stmt -> IF ( Expr ) Stmt ELSE Stmt
+Stmts -> Stmts Stmt
+}
+Block -> { Stmts }
+Stmt -> Block
+Stmt -> WHILE ( Expr ) Stmt
+Stmts -> Stmts Stmt
+}
+Block -> { Stmts }
+Stmt -> Block
+Stmt -> WHILE ( Expr ) Stmt
+Stmts -> Stmts Stmt
+return
+RESERVED
+sum
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+int
+RESERVED
+Type -> INT
+main
+ID
+(
+)
+{
+int
+RESERVED
+Type -> INT
+result
+ID
+;
+Decl -> Type ID Vars ;
+result
+ID
+Decls -> Decl_list Decl
+Location -> ID
+=
+sumToN
+ID
+(
+Method -> ID
+10
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmts -> Stmts Stmt
+return
+RESERVED
+result
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+Meth_list -> Meth
+Meth_list -> Meth Meth_list
+Program -> Meth_list
+
+----------------AST------------------
+PROGRAM
+  METHOD (sumToN)
+    PARAMS
+      ID (n)
+        TYPE (int)
+    BODY
+      DECLARATIONS
+        DECLARE
+          TYPE (int)
+          ASSIGN
+            ID (i)
+            NUM (0)
+        DECLARE
+          TYPE (int)
+          ASSIGN
+            ID (sum)
+            NUM (0)
+      STATEMENTS
+        STATEMENT
+          WHILE
+            OP (<=)
+              ID (i)
+              ID (n)
+            BLOCK
+              STATEMENT
+                IF
+                  OP (==)
+                    OP (-)
+                      ID (i)
+                      OP (*)
+                        OP (/)
+                          ID (i)
+                          NUM (2)
+                        NUM (2)
+                    NUM (0)
+                  ASSIGN
+                    ID (sum)
+                    OP (+)
+                      ID (sum)
+                      ID (i)
+                  ASSIGN
+                    ID (sum)
+                    OP (+)
+                      ID (sum)
+                      OP (*)
+                        ID (i)
+                        NUM (2)
+              STATEMENT
+                ASSIGN
+                  ID (i)
+                  OP (+)
+                    ID (i)
+                    NUM (1)
+              STATEMENT
+                WHILE
+                  BOOL (true)
+                  BLOCK
+                    STATEMENT
+                      IF
+                        OP (>)
+                          ID (sum)
+                          NUM (0)
+                        BREAK
+                        IF
+                          OP (==)
+                            ID (i)
+                            NUM (0)
+                          ASSIGN
+                            ID (sum)
+                            OP (*)
+                              ID (sum)
+                              ID (sum)
+                          ASSIGN
+                            ID (sum)
+                            OP (*)
+                              ID (sum)
+                              NUM (2)
+        STATEMENT
+          RETURN
+            ID (sum)
+  METHOD (main)
+    BODY
+      DECLARATIONS
+        DECLARE
+          TYPE (int)
+          ID (result)
+      STATEMENTS
+        STATEMENT
+          ASSIGN
+            ID (result)
+            FUNCTION CALL
+              ID (sumToN)
+              ARGUMENTS
+                ARGUMENT
+                  NUM (10)
+        STATEMENT
+          RETURN
+            ID (result)
+
+-------------SYMBOL TABLE--------------
+Total symbols: 6
+Bucket 0:
+  Name: result | Scope: main | Type: int | Kind: Variable | Index in table: 0 Value: 0
+Bucket 1:
+  Name: sum | Scope: sumToN | Type: int | Kind: Variable | Index in table: 1 Value: 0
+Bucket 2:
+  Name: main | Scope: global | Type: int | Kind: Function | Parameters: 0 Locals: 1 Recursive: false Value: 0
+Bucket 3:
+  Name: sumToN | Scope: global | Type: int | Kind: Function | Parameters: 1 Locals: 2 Recursive: false Value: 0
+Bucket 4:
+  Name: n | Scope: sumToN | Type: int | Kind: Parameter | Index in table: 0 Value: 0
+Bucket 5:
+  Name: i | Scope: sumToN | Type: int | Kind: Variable | Index in table: 0 Value: 0

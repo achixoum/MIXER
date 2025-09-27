@@ -1,0 +1,239 @@
+-------------FLEX AND YACC DEBUGGING LOGS-------------
+
+int
+RESERVED
+Type -> INT
+fib
+ID
+(
+int
+RESERVED
+Type -> INT
+x
+ID
+)
+Params -> Formals Type ID
+{
+if
+RESERVED
+(
+x
+ID
+==
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+1
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr Relop Add_expr
+return
+RESERVED
+1
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+else
+RESERVED
+;
+Stmt -> ; (empty stmt)
+Stmt -> IF ( Expr ) Stmt ELSE Stmt
+Stmts -> Stmts Stmt
+if
+RESERVED
+(
+x
+ID
+==
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+0
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr Relop Add_expr
+return
+RESERVED
+0
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+else
+RESERVED
+;
+Stmt -> ; (empty stmt)
+Stmt -> IF ( Expr ) Stmt ELSE Stmt
+Stmts -> Stmts Stmt
+return
+RESERVED
+fib
+ID
+(
+Method -> ID
+x
+ID
+-
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+1
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
++
+Add_expr -> Term
+fib
+ID
+(
+Method -> ID
+x
+ID
+-
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+2
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
+;
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+int
+RESERVED
+Type -> INT
+main
+ID
+(
+)
+{
+int
+RESERVED
+Type -> INT
+a
+ID
+;
+Decl -> Type ID Vars ;
+a
+ID
+Decls -> Decl_list Decl
+Location -> ID
+=
+fib
+ID
+(
+Method -> ID
+5
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+Meth_list -> Meth
+Meth_list -> Meth Meth_list
+Program -> Meth_list
+
+----------------AST------------------
+PROGRAM
+  METHOD (fib)
+    PARAMS
+      ID (x)
+        TYPE (int)
+    BODY
+      STATEMENTS
+        STATEMENT
+          IF
+            OP (==)
+              ID (x)
+              NUM (1)
+            RETURN
+              NUM (1)
+        STATEMENT
+          IF
+            OP (==)
+              ID (x)
+              NUM (0)
+            RETURN
+              NUM (0)
+        STATEMENT
+          RETURN
+            OP (+)
+              FUNCTION CALL
+                ID (fib)
+                ARGUMENTS
+                  ARGUMENT
+                    OP (-)
+                      ID (x)
+                      NUM (1)
+              FUNCTION CALL
+                ID (fib)
+                ARGUMENTS
+                  ARGUMENT
+                    OP (-)
+                      ID (x)
+                      NUM (2)
+  METHOD (main)
+    BODY
+      DECLARATIONS
+        DECLARE
+          TYPE (int)
+          ID (a)
+      STATEMENTS
+        STATEMENT
+          ASSIGN
+            ID (a)
+            FUNCTION CALL
+              ID (fib)
+              ARGUMENTS
+                ARGUMENT
+                  NUM (5)
+
+-------------SYMBOL TABLE--------------
+Total symbols: 4
+Bucket 1:
+  Name: x | Scope: fib | Type: int | Kind: Parameter | Index in table: 0 Value: 0 
+Bucket 2:
+  Name: a | Scope: main | Type: int | Kind: Variable | Index in table: 0 Value: 0 
+  Name: main | Scope: global | Type: int | Kind: Function | Parameters: 0 Locals: 1 Recursive: false Value: 0 
+  Name: fib | Scope: global | Type: int | Kind: Function | Parameters: 1 Locals: 0 Recursive: true Value: 0 

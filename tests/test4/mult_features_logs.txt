@@ -1,0 +1,405 @@
+-------------FLEX AND YACC DEBUGGING LOGS-------------
+
+int
+RESERVED
+Type -> INT
+max
+ID
+(
+int
+RESERVED
+Type -> INT
+x
+ID
+,
+Formals -> Formals Type ID ,
+int
+RESERVED
+Type -> INT
+y
+ID
+)
+Params -> Formals Type ID
+{
+if
+RESERVED
+(
+x
+ID
+>
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+y
+ID
+)
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr Relop Add_expr
+return
+RESERVED
+x
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+else
+RESERVED
+return
+RESERVED
+y
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmt -> IF ( Expr ) Stmt ELSE Stmt
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+int
+RESERVED
+Type -> INT
+main
+ID
+(
+)
+{
+int
+RESERVED
+Type -> INT
+i
+ID
+=
+0
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Decl -> Type ID = Expr Vars ;
+int
+RESERVED
+Decl_list -> Decl_list Decl
+Type -> INT
+runningMax
+ID
+=
+0
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Decl -> Type ID = Expr Vars ;
+int
+RESERVED
+Decl_list -> Decl_list Decl
+Type -> INT
+val
+ID
+=
+0
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Decl -> Type ID = Expr Vars ;
+while
+RESERVED
+Decls -> Decl_list Decl
+(
+i
+ID
+<
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+10
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr Relop Add_expr
+{
+if
+RESERVED
+(
+(
+i
+ID
+-
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+(
+i
+ID
+/
+Location -> ID
+Factor -> Location
+Term -> Factor
+2
+Factor -> NUM
+Term -> Term Mulop Factor
+)
+Add_expr -> Term
+Expr -> Add_expr
+Factor -> ( Expr )
+Term -> Factor
+*
+2
+Factor -> NUM
+Term -> Term Mulop Factor
+)
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Factor -> ( Expr )
+Term -> Factor
+==
+Add_expr -> Term
+0
+Factor -> NUM
+Term -> Factor
+)
+Add_expr -> Term
+Expr -> Add_expr Relop Add_expr
+val
+ID
+Location -> ID
+=
+i
+ID
+*
+Location -> ID
+Factor -> Location
+Term -> Factor
+3
+Factor -> NUM
+Term -> Term Mulop Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+else
+RESERVED
+val
+ID
+Location -> ID
+=
+i
+ID
+*
+Location -> ID
+Factor -> Location
+Term -> Factor
+2
+Factor -> NUM
+Term -> Term Mulop Factor
++
+Add_expr -> Term
+1
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmt -> IF ( Expr ) Stmt ELSE Stmt
+Stmts -> Stmts Stmt
+runningMax
+ID
+Location -> ID
+=
+max
+ID
+(
+Method -> ID
+runningMax
+ID
+,
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Args -> Args Expr ,
+val
+ID
+)
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Actuals -> Args Expr
+Factor -> Method ( Actuals )
+Term -> Factor
+;
+Add_expr -> Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmts -> Stmts Stmt
+i
+ID
+Location -> ID
+=
+i
+ID
++
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+1
+Factor -> NUM
+Term -> Factor
+;
+Add_expr -> Add_expr Addop Term
+Expr -> Add_expr
+Assign -> Location = Expr
+Stmt -> Assign ;
+Stmts -> Stmts Stmt
+}
+Block -> { Stmts }
+Stmt -> Block
+Stmt -> WHILE ( Expr ) Stmt
+Stmts -> Stmts Stmt
+return
+RESERVED
+runningMax
+ID
+;
+Location -> ID
+Factor -> Location
+Term -> Factor
+Add_expr -> Term
+Expr -> Add_expr
+Stmt -> RETURN Expr ;
+Stmts -> Stmts Stmt
+}
+Body -> { Decls Stmts }
+Meth -> Type ID ( Params ) Body
+Meth_list -> Meth
+Meth_list -> Meth Meth_list
+Program -> Meth_list
+
+----------------AST------------------
+PROGRAM
+  METHOD (max)
+    PARAMS
+      ID (x)
+        TYPE (int)
+      ID (y)
+        TYPE (int)
+    BODY
+      STATEMENTS
+        STATEMENT
+          IF
+            OP (>)
+              ID (x)
+              ID (y)
+            RETURN
+              ID (x)
+            RETURN
+              ID (y)
+  METHOD (main)
+    BODY
+      DECLARATIONS
+        DECLARE
+          TYPE (int)
+          ASSIGN
+            ID (i)
+            NUM (0)
+        DECLARE
+          TYPE (int)
+          ASSIGN
+            ID (runningMax)
+            NUM (0)
+        DECLARE
+          TYPE (int)
+          ASSIGN
+            ID (val)
+            NUM (0)
+      STATEMENTS
+        STATEMENT
+          WHILE
+            OP (<)
+              ID (i)
+              NUM (10)
+            BLOCK
+              STATEMENT
+                IF
+                  OP (==)
+                    OP (-)
+                      ID (i)
+                      OP (*)
+                        OP (/)
+                          ID (i)
+                          NUM (2)
+                        NUM (2)
+                    NUM (0)
+                  ASSIGN
+                    ID (val)
+                    OP (*)
+                      ID (i)
+                      NUM (3)
+                  ASSIGN
+                    ID (val)
+                    OP (+)
+                      OP (*)
+                        ID (i)
+                        NUM (2)
+                      NUM (1)
+              STATEMENT
+                ASSIGN
+                  ID (runningMax)
+                  FUNCTION CALL
+                    ID (max)
+                    ARGUMENTS
+                      ARGUMENT
+                        ID (runningMax)
+                      ARGUMENT
+                        ID (val)
+              STATEMENT
+                ASSIGN
+                  ID (i)
+                  OP (+)
+                    ID (i)
+                    NUM (1)
+        STATEMENT
+          RETURN
+            ID (runningMax)
+
+-------------SYMBOL TABLE--------------
+Total symbols: 7
+Bucket 0:
+  Name: runningMax | Scope: main | Type: int | Kind: Variable | Index in table: 1 Value: 0
+Bucket 1:
+  Name: i | Scope: main | Type: int | Kind: Variable | Index in table: 0 Value: 0
+Bucket 2:
+  Name: val | Scope: main | Type: int | Kind: Variable | Index in table: 2 Value: 0
+Bucket 3:
+  Name: main | Scope: global | Type: int | Kind: Function | Parameters: 0 Locals: 3 Recursive: false Value: 0
+Bucket 5:
+  Name: x | Scope: max | Type: int | Kind: Parameter | Index in table: 0 Value: 0
+Bucket 6:
+  Name: y | Scope: max | Type: int | Kind: Parameter | Index in table: 1 Value: 0
+  Name: max | Scope: global | Type: int | Kind: Function | Parameters: 2 Locals: 0 Recursive: false Value: 0
