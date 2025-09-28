@@ -183,13 +183,31 @@ Stmts -> Stmts Stmt
 while
 RESERVED
 (
-true
-RESERVED
-Factor -> TRUE
+1
+Factor -> NUM
+Term -> Factor
++
+Add_expr -> Term
+44
+Factor -> NUM
+Term -> Factor
++
+Add_expr -> Add_expr Addop Term
+7
+Factor -> NUM
+Term -> Factor
+/
+2
+Factor -> NUM
+Term -> Term Mulop Factor
+!=
+Add_expr -> Add_expr Addop Term
+100
+Factor -> NUM
 Term -> Factor
 )
 Add_expr -> Term
-Expr -> Add_expr
+Expr -> Add_expr Relop Add_expr
 {
 if
 RESERVED
@@ -411,7 +429,15 @@ PROGRAM
                     NUM (1)
               STATEMENT
                 WHILE
-                  BOOL (true)
+                  OP (!=)
+                    OP (+)
+                      OP (+)
+                        NUM (1)
+                        NUM (44)
+                      OP (/)
+                        NUM (7)
+                        NUM (2)
+                    NUM (100)
                   BLOCK
                     STATEMENT
                       IF

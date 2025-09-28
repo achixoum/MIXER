@@ -18,6 +18,8 @@ COND0           LDA 0,1
            LDA 0,2
            CMPA TEMP0
            JLE LOOP0
+           CMPA =0=
+           JNE LOOP0
            JMP ENDLOOP0
 LOOP0       NOP
            LDA =0=
@@ -37,6 +39,8 @@ LOOP0       NOP
            SUB TEMP2
            CMPA TEMP1
            JE IF0
+           CMPA =0=
+           JNE IF0
            JMP ELSE0
 IF0     NOP
            LDA 0,2
@@ -61,38 +65,57 @@ ENDIF0     NOP
            LDA 0,2
            ADD TEMP8
            STA 0,2
-COND1           LDA =1=
+COND1           LDA =100=
+           STA TEMP9
+           LDA =2=
+           STA TEMP10
+           LDA =7=
+           SRAX 5
+           DIV TEMP10
+           ENTX 0
+           STA TEMP10
+           LDA =44=
+           STA TEMP12
+           LDA =1=
+           ADD TEMP12
+           ADD TEMP10
+           CMPA TEMP9
+           JNE LOOP1
            JMP ENDLOOP1
 LOOP1       NOP
            LDA =0=
-           STA TEMP9
+           STA TEMP13
            LDA 1,2
-           CMPA TEMP9
+           CMPA TEMP13
            JG IF1
+           CMPA =0=
+           JNE IF1
            JMP ELSE1
 IF1     NOP
            JMP ENDLOOP1
            JMP ENDIF1
 ELSE1     NOP
            LDA =0=
-           STA TEMP10
+           STA TEMP14
            LDA 0,2
-           CMPA TEMP10
+           CMPA TEMP14
            JE IF2
+           CMPA =0=
+           JNE IF2
            JMP ELSE2
 IF2     NOP
            LDA 1,2
-           STA TEMP11
+           STA TEMP15
            LDA 1,2
-           MUL TEMP11
+           MUL TEMP15
            SLAX 5
            STA 1,2
            JMP ENDIF2
 ELSE2     NOP
            LDA =2=
-           STA TEMP12
+           STA TEMP16
            LDA 1,2
-           MUL TEMP12
+           MUL TEMP16
            SLAX 5
            STA 1,2
 ENDIF2     NOP

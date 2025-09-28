@@ -5,6 +5,8 @@
 #include <stdio.h>
 
 
+
+bool is_number(const char* value);
 void generate_tables_code(Hash_table hash_table);
 void generate_method_code(AST_Node* node, Hash_table hash_table, const char* method, bool is_recursive);
 void generate_call_code(AST_Node* node, Hash_table hash_table, const char* method, symbol* func);

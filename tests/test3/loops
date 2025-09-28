@@ -12,7 +12,7 @@ int sumToN(int n)
             sum = sum + (i * 2);
         i = i + 1;
 
-        while(true) {
+        while(1+44+7/2 != 100) {
             if (sum>0)
                 break;
             else

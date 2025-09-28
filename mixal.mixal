@@ -1,190 +1,145 @@
        ORIG 0
 TBL02      ORIG *+1
-       ORIG 1000
-STACK     ORIG *+200
-VARS     ORIG *+200
-SP     CON -1
-L     CON -1
-
-PUSH    STJ EXITPUSH
-        LD3 SP
-        INC3 1
-        STA STACK,3
-        ST3 SP
-EXITPUSH JMP *
-
-PUSHL    STJ EXITPUSHL
-        STA RECA(0:2)
-        ST4 EXPR
-        LDA EXPR
-        ST5 INDEX
-        ADD INDEX
-        STA EXPR
-        LD4 EXPR
-RECA    ENTA *
-EXITPUSHL JMP *
-
-POPL    STJ EXITPOPL
-        STA RECPOPL(0:2)
-        LDA L
-        SUB VAR
-        STA L
-        SUB VAR
-        INCA 1
-        STA T
-        LD5 T
-RECPOPL ENTA *
-EXITPOPL JMP *
-
-POP    STJ EXITPOP
-        STA RECPOP(0:2)
-        LDA SP
-        SUB LOCALS
-        STA TEMP2
-        LD3 TEMP2
-        LD4 STACK,3(1:2)
-        ST4 EXIT0(1:2)
-        DECA 1
-        SUB PARAMS
-        STA SP
-        SUB PARAMS
-        INCA 1
-        STA TEMP2
-        LD2 TEMP2
-        SUB PARAMS
-        STA TEMP2
-        LD1 TEMP2
-RECPOP  ENTA *
-EXITPOP JMP *
-
-SETINDEX    STJ EXITINDX
-            STA RECAI(0:2)
-           ST5 INDEX
-           ST4 TEMP
-           LDA INDEX
-           ADD TEMP
-           STA INDEX
-           LD6 INDEX
-RECAI     ENTA *
-EXITINDX    JMP *
-
+TBL11      ORIG *+1
+TBL12      ORIG *+2
        ORIG 2000
 
-fib     STJ EXIT0
-           LD1 SP
-           LD3 SP
-           LD5 L
-           INC5 1
-           LDA VAR
-           ADD L
-           STA L
-           INC3 1
-           STJ STACK,3
-           ST3 SP
-           LDA =1=
-           LD4 =0=
-           JMP PUSHL
-           STA VARS,4
-           ST1 INDEX
-           LDA INDEX
-           ADD =0=
-           STA INDEX
-           LD6 INDEX
-           LDA STACK,6
-           LD4 =0=
-           JMP SETINDEX
-           CMPA VARS,6
+sumToN     STJ EXIT0
+           ST1 REC0(0:2)
+            ENT1 TBL11
+           ST2 REC1(0:2)
+            ENT2 TBL12
+           LDA =0=
+           STA 0,2
+           LDA =0=
+           STA 1,2
+COND0           LDA 0,1
+           STA TEMP0
+           LDA 0,2
+           CMPA TEMP0
+           JLE LOOP0
+           CMPA =0=
+           JNE LOOP0
+           JMP ENDLOOP0
+LOOP0       NOP
+           LDA =0=
+           STA TEMP1
+           LDA =2=
+           STA TEMP2
+           LDA =2=
+           STA TEMP3
+           LDA 0,2
+           SRAX 5
+           DIV TEMP3
+           ENTX 0
+           MUL TEMP2
+           SLAX 5
+           STA TEMP2
+           LDA 0,2
+           SUB TEMP2
+           CMPA TEMP1
            JE IF0
+           CMPA =0=
+           JNE IF0
            JMP ELSE0
 IF0     NOP
-           LDA =1=
-           JMP POPL
-           JMP POP
-           JMP EXIT0
+           LDA 0,2
+           STA TEMP5
+           LDA 1,2
+           ADD TEMP5
+           STA 1,2
            JMP ENDIF0
 ELSE0     NOP
+           LDA =2=
+           STA TEMP6
+           LDA 0,2
+           MUL TEMP6
+           SLAX 5
+           STA TEMP6
+           LDA 1,2
+           ADD TEMP6
+           STA 1,2
 ENDIF0     NOP
+           LDA =1=
+           STA TEMP8
+           LDA 0,2
+           ADD TEMP8
+           STA 0,2
+COND1           LDA =100=
+           STA TEMP9
+           LDA =2=
+           STA TEMP10
+           LDA =7=
+           SRAX 5
+           DIV TEMP10
+           ENTX 0
+           STA TEMP10
+           LDA =44=
+           STA TEMP12
+           LDA =1=
+           ADD TEMP12
+           ADD TEMP10
+           CMPA TEMP9
+           JNE LOOP1
+           JMP ENDLOOP1
+LOOP1       NOP
            LDA =0=
-           LD4 =1=
-           JMP PUSHL
-           STA VARS,4
-           ST1 INDEX
-           LDA INDEX
-           ADD =0=
-           STA INDEX
-           LD6 INDEX
-           LDA STACK,6
-           LD4 =1=
-           JMP SETINDEX
-           CMPA VARS,6
-           JE IF1
+           STA TEMP13
+           LDA 1,2
+           CMPA TEMP13
+           JG IF1
+           CMPA =0=
+           JNE IF1
            JMP ELSE1
 IF1     NOP
-           LDA =0=
-           JMP POPL
-           JMP POP
-           JMP EXIT0
+           JMP ENDLOOP1
            JMP ENDIF1
 ELSE1     NOP
-ENDIF1     NOP
+           LDA =0=
+           STA TEMP14
+           LDA 0,2
+           CMPA TEMP14
+           JE IF2
+           CMPA =0=
+           JNE IF2
+           JMP ELSE2
+IF2     NOP
+           LDA 1,2
+           STA TEMP15
+           LDA 1,2
+           MUL TEMP15
+           SLAX 5
+           STA 1,2
+           JMP ENDIF2
+ELSE2     NOP
            LDA =2=
-           LD4 =2=
-           JMP PUSHL
-           STA VARS,4
-           ST1 INDEX
-           LDA INDEX
-           ADD =0=
-           STA INDEX
-           LD6 INDEX
-           LDA STACK,6
-           LD4 =2=
-           JMP SETINDEX
-           SUB VARS,6
-           JMP PUSH
-           JMP fib
-           LD4 =2=
-           JMP PUSHL
-           STA VARS,4
-           LDA =1=
-           LD4 =4=
-           JMP PUSHL
-           STA VARS,4
-           ST1 INDEX
-           LDA INDEX
-           ADD =0=
-           STA INDEX
-           LD6 INDEX
-           LDA STACK,6
-           LD4 =4=
-           JMP SETINDEX
-           SUB VARS,6
-           JMP PUSH
-           JMP fib
-           LD4 =2=
-           JMP SETINDEX
-           ADD VARS,6
-           JMP POPL
-           JMP POP
-           JMP EXIT0
+           STA TEMP16
+           LDA 1,2
+           MUL TEMP16
+           SLAX 5
+           STA 1,2
+ENDIF2     NOP
+ENDIF1     NOP
+           JMP COND1
+ENDLOOP1      NOP
+           JMP COND0
+ENDLOOP0      NOP
+           LDA 1,2
+          JMP REC0
+REC0      ENT1 *
+REC1      ENT2 *
 EXIT0     JMP *
 
 main     STJ EXIT1
            ST2 REC2(0:2)
             ENT2 TBL02
-           ST1 RECI1(0:2)
-           ST2 RECI2(0:2)
-           LDA =0=
-           STA LOCALS
-           LDA =1=
-           STA PARAMS
-           LDA =5=
-           STA VAR
-           LDA =5=
-           JMP PUSH
-           JMP fib
-RECI1      ENT1 *
-RECI2      ENT2 *
+           ENT3 TBL11
+           LDA =10=
+           STA 0,3
+           JMP sumToN
            STA 0,2
+           LDA 0,2
+          JMP REC2
 REC2      ENT2 *
 EXIT1     JMP *
        HLT

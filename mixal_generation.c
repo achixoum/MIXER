@@ -1,6 +1,7 @@
 #include "mixal_generation.h"
 
 #include <inttypes.h>
+#include <ctype.h>
 
 #include "y.tab.h"
 
@@ -11,6 +12,15 @@ int func_temps = 0;
 int branches = 0;
 int loops = 0;
 int argument = 0;
+
+bool is_number(const char* value) {
+    for (int i=0; value[i] != '\0'; i++) {
+        if (!isdigit(value[i]))
+            return false;
+    }
+
+    return true;
+}
 
 void generate_tables_code(Hash_table hash_table) {
 
@@ -351,6 +361,10 @@ void check_condition(char* value, char* branch, int num) {
         fprintf(mixal_file, "           JE %s%d\n", branch,num);
     if (strcmp(value, "!=") == 0)
         fprintf(mixal_file, "           JNE %s%d\n", branch, num);
+    else {
+        fprintf(mixal_file, "           CMPA =0=\n");
+        fprintf(mixal_file, "           JNE %s%d\n", branch, num);
+    }
 }
 
 void generate_method_code(AST_Node* node, Hash_table hash_table, const char* method, bool is_recursive) {

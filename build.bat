@@ -16,7 +16,7 @@ gcc lex.yy.c y.tab.c zyywrap.c syndax_tree.c log.c symbol_table.c mixal_generati
 if errorlevel 1 goto :error
 
 :: Run compiler
-compiler.exe < tests/test2/fibonacci
+compiler.exe < tests/test3/loops
 
 
 echo ==============================
