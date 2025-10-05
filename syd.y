@@ -434,7 +434,7 @@ int main(void) {
        generate_tables_code(symbol_table);
 
        if (recursive_function_exists(symbol_table))
-           generate_stack(symbol_table);
+           generate_stack();
 
        generate_mixal(root, symbol_table);
    }
